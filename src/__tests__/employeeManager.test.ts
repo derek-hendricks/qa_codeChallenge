@@ -102,7 +102,8 @@ describe("Employee Manager", () => {
       title: "CEO",
     });
   });
-  it("stretch: bug found before fix - Validation error messages do not remain on page after navigating to new employee page", async () => {
+  it("Validation error messages do not remain on page after navigating to new employee page", async () => {
+    // https://dmutah.atlassian.net/browse/DH6DL-26
     await em.selectEmployeeByName("Dollie Berry");
     await em.editEmployee({
       phone: "phonenumber"
@@ -112,6 +113,16 @@ describe("Employee Manager", () => {
     await em.selectEmployeeByName("Harriett Williamson");
     let errorMessage: string = await em.getErrorMessage();
     expect(errorMessage).not.toEqual("The phone number must be 10 digits long.");
+  });
+
+  it("Validation error results in error highlighting in the input field with the invalid info", async () => {
+    await em.selectEmployeeByName("Dollie Berry");
+    await em.editEmployee({
+      phone: "phonenumber"
+    });
+    await em.saveChanges();
+    let errorField = await em.getErrorField();
+    expect(errorField).toBe('phoneEntry');
   });
 });
 

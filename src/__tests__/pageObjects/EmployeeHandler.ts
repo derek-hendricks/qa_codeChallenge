@@ -6,7 +6,7 @@ import {
   WebDriver,
   WebElement,
 } from "selenium-webdriver";
-import { elementLocated } from "selenium-webdriver/lib/until";
+import { elementIsEnabled, elementLocated } from "selenium-webdriver/lib/until";
 const chromedriver = require("chromedriver");
 
 /** A page object for the Employee Manager project */
@@ -22,6 +22,7 @@ export class EmployeeHandler {
   saveButton: By = By.id("saveBtn");
   cancelButton: By = By.name("cancel");
   errorCard: By = By.css(".errorCard");
+  invalidInfo: By = By.css(".invalidInfo");
   homePage: string =
     "https://devmountain-qa.github.io/employee-manager/1.2_Version/index.html";
 
@@ -131,6 +132,10 @@ export class EmployeeHandler {
   async getErrorMessage(): Promise<string> {
     return (await this.driver.findElement(this.errorCard)).getText();
   }
+
+  async getErrorField() {
+    return (await this.driver.findElement(this.invalidInfo)).getAttribute('name');
+}
 
   /**
    * Returns once the employee card for the given employee has loaded
