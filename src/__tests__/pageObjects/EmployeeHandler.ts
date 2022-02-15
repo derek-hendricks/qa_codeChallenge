@@ -6,7 +6,7 @@ import {
   WebDriver,
   WebElement,
 } from "selenium-webdriver";
-import { elementIsEnabled, elementLocated } from "selenium-webdriver/lib/until";
+import { elementLocated } from "selenium-webdriver/lib/until";
 const chromedriver = require("chromedriver");
 
 /** A page object for the Employee Manager project */
