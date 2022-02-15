@@ -44,7 +44,7 @@ describe("Employee Manager", () => {
     expect(employee.phone).toEqual("4033642723");
     expect(employee.title).toEqual("Nuclear Safety Inspector");
   });
-  
+
   it("can edit an existing employee", async () => {
     await em.selectEmployeeByName("Bernice Ortiz");
     await em.editEmployee({ title: "Grand Poobah" });
@@ -101,6 +101,17 @@ describe("Employee Manager", () => {
       phone: "4824931093",
       title: "CEO",
     });
+  });
+  it("stretch: bug found before fix - Validation error messages do not remain on page after navigating to new employee page", async () => {
+    await em.selectEmployeeByName("Dollie Berry");
+    await em.editEmployee({
+      phone: "phonenumber"
+    });
+    await em.saveChanges();
+   
+    await em.selectEmployeeByName("Harriett Williamson");
+    let errorMessage: string = await em.getErrorMessage();
+    expect(errorMessage).not.toEqual("The phone number must be 10 digits long.");
   });
 });
 
